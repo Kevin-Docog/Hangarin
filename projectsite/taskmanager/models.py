@@ -44,7 +44,7 @@ class Task(BaseModel):
         default="Pending"
     )
 
-    deadline = models.DateTimeField()
+    deadline = models.DateField()
     priority = models.ForeignKey(Priority, on_delete=models.CASCADE)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
 
