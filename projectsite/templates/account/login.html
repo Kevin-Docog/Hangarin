@@ -75,21 +75,19 @@
             <div class="tab-pane fade show active" id="pills-login" role="tabpanel">
                 <form method="post" action="{% url 'account_login' %}">
                     {% csrf_token %}
-                    
-                   <!-- Social Login - Disabled for now -->
-                    
+
                     <div class="text-center mb-3">
                         <p class="mb-2">Sign in with:</p>
                         <a href="{% provider_login_url 'google' %}" class="social-btn btn btn-outline-danger">
                             <i class="fab fa-google"></i>
                         </a>
-                         <button class="social-btn btn btn-outline-dark" disabled style="opacity: 0.5; cursor: not-allowed;" title="Coming soon">
+                        <button class="social-btn btn btn-outline-dark" disabled style="opacity: 0.5; cursor: not-allowed;" title="Coming soon">
                             <i class="fab fa-github"></i>
-                        </button></div> 
-                        
-                        
+                        </button>
                     </div>
+
                     <p class="text-center text-muted">or:</p>
+
                     <!-- Username/Email -->
                     <div class="mb-3">
                         <label for="id_login" class="form-label">Email or Username</label>
@@ -135,22 +133,19 @@
             <div class="tab-pane fade" id="pills-register" role="tabpanel">
                 <form method="post" action="{% url 'account_signup' %}">
                     {% csrf_token %}
-                    
-                   <!-- Social Signup - Disabled for now -->
-                    
-                 <div class="text-center mb-3">
-                    <p class="mb-2">Sign up with:</p>
-                    <a href="{% provider_login_url 'google' %}" class="social-btn btn btn-outline-danger">
-                        <i class="fab fa-google"></i>
-                    </a>
-                    <button class="social-btn btn btn-outline-dark" disabled style="opacity: 0.5; cursor: not-allowed;" title="Coming soon">
-                        <i class="fab fa-github"></i>
-                    </button>
-                   
-                    
-                </div>
 
-              <!--   <p class="text-center text-muted">or:</p>  -->
+                    <div class="text-center mb-3">
+                        <p class="mb-2">Sign up with:</p>
+                        <a href="{% provider_login_url 'google' %}" class="social-btn btn btn-outline-danger">
+                            <i class="fab fa-google"></i>
+                        </a>
+                        <button class="social-btn btn btn-outline-dark" disabled style="opacity: 0.5; cursor: not-allowed;" title="Coming soon">
+                            <i class="fab fa-github"></i>
+                        </button>
+                    </div>
+
+                    <p class="text-center text-muted">or:</p>
+
                     <!-- Username -->
                     <div class="mb-3">
                         <label for="registerUsername" class="form-label">Username</label>
