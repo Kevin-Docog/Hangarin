@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 
 from pathlib import Path
 import os
+import socket
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -26,7 +27,7 @@ SECRET_KEY = 'django-insecure-n(^km&xsok527vp^zw*5ann-3uc-_^27*m_^+0$a!+8ax47@q-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['KevinDocog.pythonanywhere.com', '127.0.0.1']
+ALLOWED_HOSTS = ['KevinDocog.pythonanywhere.com', '127.0.0.1', 'localhost',]
 
 
 # Application definition
@@ -48,7 +49,10 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.github',
 ]
 
-SITE_ID = 2
+if "pythonanywhere" in socket.gethostname():
+    SITE_ID = 2 # production site (kevindocog.pythonanywhere.com)
+else:
+    SITE_ID = 1 # local site (127.0.0.1:8000)
 
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
