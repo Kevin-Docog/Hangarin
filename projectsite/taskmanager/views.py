@@ -16,22 +16,19 @@ class HomePageView(ListView):
         context = super().get_context_data(**kwargs)
 
         # Total tasks
-        context["total_tasks"] = Task.objects.count()
-
-        # Tasks completed this year
-        today = timezone.now().date()
-        tasks_completed_this_year = Task.objects.filter(
-            status="Completed",
-            deadline__year=today.year
-        ).count()
-        context["tasks_completed_this_year"] = tasks_completed_this_year
-
-        # Total subtasks
-        context["total_subtasks"] = SubTask.objects.count()
-
-        # Total notes
-        context["total_notes"] = Note.objects.count()
-
+        context['total_tasks'] = Task.objects.count()
+        context['pending_count'] = Task.objects.filter(status='Pending').count()
+        context['inprogress_count'] = Task.objects.filter(status='In Progress').count()
+        context['completed_count'] = Task.objects.filter(status='Completed').count()
+        
+        # Other statistics
+        context['total_categories'] = Category.objects.count()
+        context['total_priorities'] = Priority.objects.count()
+        context['total_notes'] = Note.objects.count()
+        
+        # Recent tasks (last 5)
+        context['recent_tasks'] = Task.objects.all().order_by('-created_at')[:5]
+        
         return context
 
 
@@ -88,7 +85,7 @@ class SubTaskList(ListView):
     context_object_name = 'subtask'
     template_name = 'subtask_list.html'
     paginate_by = 10
-    ordering = ["parent_task__title","title"]
+    ordering = ["parent_task__title","title", "status"]
 
     def get_queryset(self):
         qs = super().get_queryset()
@@ -102,7 +99,7 @@ class SubTaskList(ListView):
         return qs
     
     def get_ordering(self):
-        allowed = ["parent_task__title","title"]
+        allowed = ["parent_task__title","title", "status"]
         sort_by = self.request.GET.get("sort_by")
 
         if sort_by in allowed:

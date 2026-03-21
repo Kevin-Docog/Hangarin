@@ -1,102 +1,196 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block title %}Dashboard - Hangarin{% endblock %}
+
 {% block content %}
-<div class="content">
-<div class="container-fluid">
-<h4 class="page-title">Home</h4>
+
+<!-- Page Heading -->
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+    <a href="{% url 'task-add' %}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+        <i class="fas fa-plus fa-sm text-white-50"></i> Add New Task
+    </a>
+</div>
+
+<!-- Content Row - Stats Cards -->
 <div class="row">
-  <div class="col-md-3">
-    <div class="card card-stats card-warning">
-      <div class="card-body">
-        <div class="row">
-          <div class="col-5">
-            <div class="icon-big text-center">
-              <i class="la la-book"></i>
-            </div>
-          </div>
-          <div class="col-7 d-flex align-items-center">
-            <div class="numbers">
-              <p class="card-category">Tasks</p>
-              <h4 class="card-title">{{total_tasks}}</h4>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
 
-  <div class="col-md-3">
-    <div class="card card-stats card-success">
-      <div class="card-body">
-        <div class="row">
-          <div class="col-5">
-            <div class="icon-big text-center">
-              <i class="la la-check-circle"></i>
+    <!-- Total Tasks Card -->
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-primary shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Total Tasks</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{ total_tasks }}</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-list fa-2x text-gray-300"></i>
+                    </div>
+                </div>
             </div>
-          </div>
-          <div class="col-7 d-flex align-items-center">
-            <div class="numbers">
-              <p class="card-category">Tasks Completed This Year</p>
-              <h4 class="card-title">{{tasks_completed_this_year}}</h4>
-            </div>
-          </div>
         </div>
-      </div>
     </div>
-  </div>
 
-  <div class="col-md-3">
-    <div class="card card-stats card-danger">
-      <div class="card-body">
-        <div class="row">
-          <div class="col-5">
-            <div class="icon-big text-center">
-              <i class="la la-newspaper-o"></i>
+    <!-- Notes Card -->
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-secondary shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-secondary text-uppercase mb-1">Total Notes</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{ total_notes }}</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-book fa-2x text-gray-300"></i>
+                    </div>
+                </div>
             </div>
-          </div>
-          <div class="col-7 d-flex align-items-center">
-            <div class="numbers">
-              <p class="card-category">Total Sub Tasks</p>
-              <h4 class="card-title">{{total_subtasks}}</h4>
-            </div>
-          </div>
         </div>
-      </div>
     </div>
-  </div>
 
-  <div class="col-md-3">
-    <div class="card card-stats card-primary">
-      <div class="card-body">
-        <div class="row">
-          <div class="col-5">
-            <div class="icon-big text-center">
-              <i class="la la-pencil"></i>
+    <!-- Categories Card -->
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-danger shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">Categories</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{ total_categories }}</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-folder-open fa-2x text-gray-300"></i>
+                    </div>
+                </div>
             </div>
-          </div>
-          <div class="col-7 d-flex align-items-center">
-            <div class="numbers">
-              <p class="card-category">Total Notes</p>
-              <h4 class="card-title">{{total_notes}}</h4>
-            </div>
-          </div>
         </div>
-      </div>
     </div>
-  </div>
+
+    <!-- Priorities Card -->
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-dark shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-dark text-uppercase mb-1">Priorities</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{ total_priorities }}</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-star fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
 </div>
+
+<!-- Content Row - Secondary Stats -->
 <div class="row">
-<div class="col-md-12">
-<div class="card">
-<div class="card-header">
-<div class="card-title">Page Title</div>
-<div class="card-category">Page Subtitle</div>
+
+    <!-- Pending Card -->
+    <div class="col-xl-4 col-md-6 mb-4">
+        <div class="card border-left-warning shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Pending</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{ pending_count }}</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-clock fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- In Progress Card -->
+    <div class="col-xl-4 col-md-6 mb-4">
+        <div class="card border-left-info shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-info text-uppercase mb-1">In Progress</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{ inprogress_count }}</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-spinner fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Completed Card -->
+    <div class="col-xl-4 col-md-6 mb-4">
+        <div class="card border-left-success shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Completed</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{ completed_count }}</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-check-circle fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
 </div>
-<div class="card-body">Hello, World</div>
+
+<!-- Content Row - Recent Tasks Table -->
+<div class="row">
+    <div class="col-12">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">Recent Tasks</h6>
+                <a href="{% url 'task-list' %}" class="btn btn-sm btn-primary">
+                    View All <i class="fas fa-arrow-right fa-sm ml-1"></i>
+                </a>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>Task</th>
+                                <th>Status</th>
+                                <th>Priority</th>
+                                <th>Deadline</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for task in recent_tasks %}
+                            <tr>
+                                <td>{{ task.title }}</td>
+                                <td>
+                                    {% if task.status == 'Completed' %}
+                                        <span class="badge badge-success">{{ task.status }}</span>
+                                    {% elif task.status == 'In Progress' %}
+                                        <span class="badge badge-info">{{ task.status }}</span>
+                                    {% else %}
+                                        <span class="badge badge-warning">{{ task.status }}</span>
+                                    {% endif %}
+                                </td>
+                                <td>{{ task.priority }}</td>
+                                <td>{{ task.deadline }}</td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="4" class="text-center text-gray-500">No tasks yet</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-</div>
-</div>
-</div>
-</div>
+
 {% endblock %}

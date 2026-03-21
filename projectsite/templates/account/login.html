@@ -1,0 +1,189 @@
+{% load socialaccount %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>Hangarin Login</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .auth-card {
+            max-width: 500px;
+            width: 100%;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            padding: 2rem;
+        }
+        .nav-pills .nav-link {
+            color: #667eea;
+        }
+        .nav-pills .nav-link.active {
+            background-color: #667eea;
+        }
+        .social-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin: 0 0.5rem;
+            transition: transform 0.2s;
+        }
+        .social-btn:hover {
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="auth-card">
+        <!-- Header -->
+        <div class="text-center mb-4">
+            <i class="fas fa-tasks fa-3x text-primary mb-3"></i>
+            <h3 class="fw-bold">Hangarin</h3>
+            <p class="text-muted">Task & To-Do Manager</p>
+        </div>
+
+        <!-- Tabs -->
+        <ul class="nav nav-pills nav-justified mb-4" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" data-bs-toggle="pill" data-bs-target="#pills-login" type="button">
+                    Login
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" data-bs-toggle="pill" data-bs-target="#pills-register" type="button">
+                    Register
+                </button>
+            </li>
+        </ul>
+
+        <!-- Tab Content -->
+        <div class="tab-content">
+            <!-- Login Tab -->
+            <div class="tab-pane fade show active" id="pills-login" role="tabpanel">
+                <form method="post" action="{% url 'account_login' %}">
+                    {% csrf_token %}
+                    
+                   <!-- Social Login - Disabled for now -->
+                    
+                    <div class="text-center mb-3">
+                        <p class="mb-2">Sign in with:</p>
+                        <a href="{% provider_login_url 'google' %}" class="social-btn btn btn-outline-danger">
+                            <i class="fab fa-google"></i>
+                        </a>
+                         <button class="social-btn btn btn-outline-dark" disabled style="opacity: 0.5; cursor: not-allowed;" title="Coming soon">
+                            <i class="fab fa-github"></i>
+                        </button></div> 
+                        
+                        
+                    </div>
+                    <p class="text-center text-muted">or:</p>
+                    <!-- Username/Email -->
+                    <div class="mb-3">
+                        <label for="id_login" class="form-label">Email or Username</label>
+                        <input type="text" name="login" id="id_login" class="form-control" required />
+                    </div>
+
+                    <!-- Password -->
+                    <div class="mb-3">
+                        <label for="id_password" class="form-label">Password</label>
+                        <input type="password" name="password" id="id_password" class="form-control" required />
+                    </div>
+
+                    <!-- Remember Me & Forgot Password -->
+                    <div class="row mb-4">
+                        <div class="col-6">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="remember" checked />
+                                <label class="form-check-label" for="remember">Remember me</label>
+                            </div>
+                        </div>
+                        <div class="col-6 text-end">
+                            <a href="{% url 'account_reset_password' %}">Forgot password?</a>
+                        </div>
+                    </div>
+
+                    <!-- Errors -->
+                    {% if form.non_field_errors %}
+                    <div class="alert alert-danger" role="alert">
+                        {% for error in form.non_field_errors %}
+                        <p class="mb-0">{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+
+                    <!-- Submit -->
+                    <button type="submit" class="btn btn-primary w-100">
+                        <i class="fas fa-sign-in-alt me-2"></i>Sign In
+                    </button>
+                </form>
+            </div>
+
+            <!-- Register Tab -->
+            <div class="tab-pane fade" id="pills-register" role="tabpanel">
+                <form method="post" action="{% url 'account_signup' %}">
+                    {% csrf_token %}
+                    
+                   <!-- Social Signup - Disabled for now -->
+                    
+                 <div class="text-center mb-3">
+                    <p class="mb-2">Sign up with:</p>
+                    <a href="{% provider_login_url 'google' %}" class="social-btn btn btn-outline-danger">
+                        <i class="fab fa-google"></i>
+                    </a>
+                    <button class="social-btn btn btn-outline-dark" disabled style="opacity: 0.5; cursor: not-allowed;" title="Coming soon">
+                        <i class="fab fa-github"></i>
+                    </button>
+                   
+                    
+                </div>
+
+              <!--   <p class="text-center text-muted">or:</p>  -->
+                    <!-- Username -->
+                    <div class="mb-3">
+                        <label for="registerUsername" class="form-label">Username</label>
+                        <input type="text" name="username" id="registerUsername" class="form-control" required />
+                    </div>
+
+                    <!-- Email -->
+                    <div class="mb-3">
+                        <label for="registerEmail" class="form-label">Email</label>
+                        <input type="email" name="email" id="registerEmail" class="form-control" required />
+                    </div>
+
+                    <!-- Password -->
+                    <div class="mb-3">
+                        <label for="registerPassword" class="form-label">Password</label>
+                        <input type="password" name="password1" id="registerPassword" class="form-control" required />
+                    </div>
+
+                    <!-- Confirm Password -->
+                    <div class="mb-3">
+                        <label for="registerRepeatPassword" class="form-label">Confirm Password</label>
+                        <input type="password" name="password2" id="registerRepeatPassword" class="form-control" required />
+                    </div>
+
+                    <!-- Submit -->
+                    <button type="submit" class="btn btn-primary w-100">
+                        <i class="fas fa-user-plus me-2"></i>Register
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
