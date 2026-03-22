@@ -5,66 +5,80 @@
 
 {% block content %}
 
-<!-- Page Heading -->
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
-    <h1 class="h3 mb-0 text-gray-800">Notes</h1>
-    <a href="{% url 'note-add' %}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
-        <i class="fas fa-plus fa-sm text-white-50"></i> Add Note
+    <h1 class="h3 mb-0 text-gray-800 font-weight-bold">Notes</h1>
+    <a href="{% url 'note-add' %}" class="btn btn-primary shadow-sm rounded-pill px-4">
+        <i class="fas fa-plus fa-sm mr-1"></i> Add Note
     </a>
 </div>
 
-<div class="card shadow mb-4">
+<div class="card shadow-sm mb-4">
     <div class="card-header py-3">
         <h6 class="m-0 font-weight-bold text-primary">List of Notes</h6>
     </div>
     <div class="card-body">
 
-        <!-- Search & Sort Row -->
-        <div class="row mb-3">
+        <div class="row mb-4 align-items-center">
             <div class="col-md-6">
                 <form class="form-inline" action="{% url 'note-list' %}">
-                    <div class="input-group">
-                        <input type="text" class="form-control bg-light border-0 small" placeholder="Search Notes..."
+                    <div class="input-group w-100">
+                        <input type="text" class="form-control bg-light border-0 small" placeholder="Search for notes..."
                                name="q" value="{{ request.GET.q }}">
                         <div class="input-group-append">
-                            <button class="btn btn-primary" type="submit">
+                            <button class="btn btn-primary px-3" type="submit">
                                 <i class="fas fa-search fa-sm"></i>
                             </button>
                         </div>
                     </div>
                 </form>
             </div>
+            <div class="col-md-6 text-right">
+                <form method="get" class="form-inline justify-content-end">
+                    <label class="mr-2 text-gray-600 small font-weight-bold text-uppercase">Sort by:</label>
+                    <select class="form-control form-control-sm mr-2 border-0 bg-light" name="sort_by">
+                        <option value="task__title" {% if request.GET.sort_by == "task__title" %}selected{% endif %}>Task</option>
+                        <option value="created_at" {% if request.GET.sort_by == "created_at" %}selected{% endif %}>Created At</option>
+                    </select>
+                    <button type="submit" class="btn btn-sm btn-outline-primary px-3 rounded-pill">
+                        <i class="fas fa-sort fa-sm mr-1"></i> Sort
+                    </button>
+                </form>
+            </div>
         </div>
 
-
         <div class="table-responsive">
-            <table class="table table-bordered" width="100%" cellspacing="0">
+            <table class="table table-hover align-middle" width="100%" cellspacing="0">
                 <thead>
                     <tr>
-                        <th>Task</th>
-                        <th>Content</th>
-                        <th>Created At</th>
-                        <th>Action</th>
+                        <th>Associated Task</th>
+                        <th>Note Content Preview</th>
+                        <th>Date Created</th>
+                        <th class="text-center">Action</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for note in object_list %}
                     <tr>
-                        <td class="font-weight-bold">{{ note.task.title }}</td>
-                        <td>{{ note.content|truncatewords:10 }}</td>
-                        <td>{{ note.created_at }}</td>
-                        <td>
-                            <a href="{% url 'note-update' note.id %}" class="btn btn-sm btn-primary">
+                        <td class="font-weight-bold text-dark">
+                            <i class="fas fa-thumbtack fa-sm mr-1 text-primary shadow-sm"></i> {{ note.task.title }}
+                        </td>
+                        <td class="text-gray-700 italic">"{{ note.content|truncatewords:10 }}"</td>
+                        <td><span class="text-gray-600 small">{{ note.created_at|date:"M d, Y H:i" }}</span></td>
+                        <td class="text-center">
+                            <a href="{% url 'note-update' note.id %}" class="btn btn-sm btn-light text-primary border shadow-sm mr-1">
                                 <i class="fas fa-edit"></i>
                             </a>
-                            <a href="{% url 'note-delete' note.id %}" class="btn btn-sm btn-danger">
+                            <a href="{% url 'note-delete' note.id %}" class="btn btn-sm btn-light text-danger border shadow-sm">
                                 <i class="fas fa-trash"></i>
                             </a>
                         </td>
                     </tr>
                     {% empty %}
                     <tr>
-                        <td colspan="4" class="text-center text-gray-500">No notes found</td>
+                        <td colspan="4" class="text-center py-5">
+                            <i class="fas fa-sticky-note fa-3x text-gray-200 mb-3"></i>
+                            <p class="text-gray-500 mb-0">No notes found. Create your first note to stay organized.</p>
+                        </td>
                     </tr>
                     {% endfor %}
                 </tbody>

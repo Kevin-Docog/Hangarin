@@ -16,18 +16,11 @@ class HomePageView(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        # Total tasks
         context['total_tasks'] = Task.objects.count()
-        context['pending_count'] = Task.objects.filter(status='Pending').count()
-        context['inprogress_count'] = Task.objects.filter(status='In Progress').count()
-        context['completed_count'] = Task.objects.filter(status='Completed').count()
-        
-        # Other statistics
+        context["total_subtasks"] = SubTask.objects.count()
         context['total_categories'] = Category.objects.count()
         context['total_priorities'] = Priority.objects.count()
         context['total_notes'] = Note.objects.count()
-        
-        # Recent tasks (last 5)
         context['recent_tasks'] = Task.objects.all().order_by('-created_at')[:5]
         
         return context
@@ -39,7 +32,7 @@ class TaskList(LoginRequiredMixin, ListView):
     context_object_name = 'task'
     template_name = 'task_list.html'
     paginate_by = 10
-    ordering = ["title","deadline", "category__name", "status"]
+    ordering = ["title","deadline", "category__name", "status", "priority__name"]
 
     def get_queryset(self):
         qs = super().get_queryset()
@@ -53,7 +46,7 @@ class TaskList(LoginRequiredMixin, ListView):
         return qs
     
     def get_ordering(self):
-        allowed = ["title","deadline", "category__name", "status"]
+        allowed = ["title","deadline", "category__name", "status", "priority__name"]
         sort_by = self.request.GET.get("sort_by")
 
         if sort_by in allowed:
@@ -131,7 +124,7 @@ class NoteList(LoginRequiredMixin, ListView):
     context_object_name = 'note'
     template_name = 'note_list.html'
     paginate_by = 10
-    ordering = ["task__title"]
+    ordering = ["task__title", "created_at"]
 
 
     def get_queryset(self):
@@ -146,7 +139,7 @@ class NoteList(LoginRequiredMixin, ListView):
         return qs
     
     def get_ordering(self):
-        allowed = ["task__title"]
+        allowed = ["task__title", "created_at"]
         sort_by = self.request.GET.get("sort_by")
 
         if sort_by in allowed:

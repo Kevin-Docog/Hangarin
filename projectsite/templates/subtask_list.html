@@ -5,30 +5,27 @@
 
 {% block content %}
 
-<!-- Page Heading -->
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
-    <h1 class="h3 mb-0 text-gray-800">SubTasks</h1>
-    <a href="{% url 'subtask-add' %}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
-        <i class="fas fa-plus fa-sm text-white-50"></i> Add SubTask
+    <h1 class="h3 mb-0 text-gray-800 font-weight-bold">SubTasks</h1>
+    <a href="{% url 'subtask-add' %}" class="btn btn-primary shadow-sm rounded-pill px-4">
+        <i class="fas fa-plus fa-sm mr-1"></i> Add SubTask
     </a>
 </div>
 
-<div class="card shadow mb-4">
+<div class="card shadow-sm mb-4">
     <div class="card-header py-3">
         <h6 class="m-0 font-weight-bold text-primary">List of SubTasks</h6>
     </div>
     <div class="card-body">
 
-        
-        <!-- Search & Sort Row -->
-        <div class="row mb-3">
+        <div class="row mb-4 align-items-center">
             <div class="col-md-6">
                 <form class="form-inline" action="{% url 'subtask-list' %}">
-                    <div class="input-group">
-                        <input type="text" class="form-control bg-light border-0 small" placeholder="Search SubTask..."
+                    <div class="input-group w-100">
+                        <input type="text" class="form-control bg-light border-0 small" placeholder="Search for subtasks..."
                                name="q" value="{{ request.GET.q }}">
                         <div class="input-group-append">
-                            <button class="btn btn-primary" type="submit">
+                            <button class="btn btn-primary px-3" type="submit">
                                 <i class="fas fa-search fa-sm"></i>
                             </button>
                         </div>
@@ -38,55 +35,63 @@
             <div class="col-md-6 text-right">
                 <form method="get" class="form-inline justify-content-end">
                     <label class="mr-2 text-gray-600 small font-weight-bold text-uppercase">Sort by:</label>
-                    <select class="form-control form-control-sm mr-2" name="sort_by">
+                    <select class="form-control form-control-sm mr-2 border-0 bg-light" name="sort_by">
                         <option value="parent_task__title" {% if request.GET.sort_by == "parent_task__title" %}selected{% endif %}>Parent Task</option>
                         <option value="title" {% if request.GET.sort_by == "title" %}selected{% endif %}>Title</option>
                         <option value="status" {% if request.GET.sort_by == "status" %}selected{% endif %}>Status</option>
                     </select>
-                    <button type="submit" class="btn btn-sm btn-primary">
-                        <i class="fas fa-sort fa-sm"></i> Sort
+                    <button type="submit" class="btn btn-sm btn-outline-primary px-3 rounded-pill">
+                        <i class="fas fa-sort fa-sm mr-1"></i> Sort
                     </button>
                 </form>
             </div>
         </div>
 
-
         <div class="table-responsive">
-            <table class="table table-bordered" width="100%" cellspacing="0">
+            <table class="table table-hover align-middle" width="100%" cellspacing="0">
                 <thead>
                     <tr>
                         <th>Title</th>
                         <th>Parent Task</th>
                         <th>Status</th>
-                        <th>Action</th>
+                        <th class="text-center">Action</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for subtask in object_list %}
                     <tr>
-                        <td class="font-weight-bold">{{ subtask.title }}</td>
-                        <td>{{ subtask.parent_task.title }}</td>
+                        <td class="font-weight-bold text-dark">{{ subtask.title }}</td>
+                        <td><span class="text-gray-800"><i class="fas fa-link fa-sm mr-1 text-gray-400"></i> {{ subtask.parent_task.title }}</span></td>
                         <td>
                             {% if subtask.status == 'Completed' %}
-                                <span class="badge badge-success">{{ subtask.status }}</span>
-                            {% elif subtask.status == 'In Progress' %}
-                                <span class="badge badge-info">{{ subtask.status }}</span>
+                                <span class="badge badge-pill badge-success-soft text-success border border-success">
+                                    <i class="fas fa-check-circle mr-1"></i>{{ subtask.status }}
+                                </span>
+                             {% elif subtask.status == 'In Progress' %}
+                                <span class="badge badge-pill badge-info-soft text-info border border-info">
+                                    <i class="fas fa-spinner fa-spin mr-1"></i>{{ subtask.status }}
+                                </span>
                             {% else %}
-                                <span class="badge badge-warning">{{ subtask.status }}</span>
+                                <span class="badge badge-pill badge-warning-soft text-warning border border-warning">
+                                    <i class="fas fa-clock mr-1"></i>{{ subtask.status }}
+                                </span>
                             {% endif %}
                         </td>
-                        <td>
-                            <a href="{% url 'subtask-update' subtask.id %}" class="btn btn-sm btn-primary">
+                        <td class="text-center">
+                            <a href="{% url 'subtask-update' subtask.id %}" class="btn btn-sm btn-light text-primary border shadow-sm mr-1">
                                 <i class="fas fa-edit"></i>
                             </a>
-                            <a href="{% url 'subtask-delete' subtask.id %}" class="btn btn-sm btn-danger">
+                            <a href="{% url 'subtask-delete' subtask.id %}" class="btn btn-sm btn-light text-danger border shadow-sm">
                                 <i class="fas fa-trash"></i>
                             </a>
                         </td>
                     </tr>
                     {% empty %}
                     <tr>
-                        <td colspan="4" class="text-center text-gray-500">No subtasks found</td>
+                        <td colspan="4" class="text-center py-5">
+                            <i class="fas fa-tasks fa-3x text-gray-200 mb-3"></i>
+                            <p class="text-gray-500 mb-0">No subtasks found.</p>
+                        </td>
                     </tr>
                     {% endfor %}
                 </tbody>

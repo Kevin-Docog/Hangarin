@@ -11281,7 +11281,6 @@ body.sidebar-toggled footer.sticky-footer {
 }
 
 
-/* Fix dropdowns overlaying content correctly */
 .topbar {
   position: relative;
   z-index: 1040;
@@ -11293,7 +11292,6 @@ body.sidebar-toggled footer.sticky-footer {
   position: absolute !important;
 }
         
-/* Ensure content wrapper doesn't clip dropdowns */
 #content {
   overflow: visible !important;
 }
@@ -11302,17 +11300,44 @@ body.sidebar-toggled footer.sticky-footer {
   overflow: visible !important;
 }
         
-/* Sidebar brand polish */
 .sidebar-brand:hover {
   text-decoration: none !important;
   opacity: 0.92;
 }
 
-/* When sidebar is toggled/collapsed, hide text and center the icon */
 .sidebar.toggled .sidebar-brand-text {
   display: none !important;
 }
 
 .sidebar.toggled .sidebar-brand {
   justify-content: center !important;
+}
+
+.card { border-radius: 12px !important; overflow: hidden; border: none !important; }
+.card-header { background-color: #f8f9fc !important; border-bottom: 1px solid #e3e6f0 !important; }
+
+.table { color: #5a5c69; }
+.table thead th { 
+    background-color: #f8f9fc; 
+    text-transform: uppercase; 
+    font-size: 0.75rem; 
+    letter-spacing: 0.05rem; 
+    border-top: none; 
+}
+.table-hover tbody tr:hover { background-color: rgba(78, 115, 223, 0.05); }
+
+.badge-pill { padding: 0.4em 0.8em; font-weight: 700; }
+
+.form-control:focus {
+    box-shadow: 0 0 0 0.2rem rgba(78, 115, 223, 0.15);
+    border-color: #bac8f3;
+}
+
+.btn-circle-sm { width: 30px; height: 30px; padding: 6px 0; border-radius: 15px; font-size: 12px; line-height: 1.42857; }
+
+.alert-soft-warning {
+    background-color: #fff4e5;
+    border: 1px solid #ffe8cc;
+    color: #856404;
+    border-left: 5px solid #f6c23e;
 }

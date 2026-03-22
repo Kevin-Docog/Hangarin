@@ -4,26 +4,40 @@
 {% block title %}Dashboard - Hangarin{% endblock %}
 
 {% block content %}
+<style>
+    .card { border: none !important; transition: transform 0.2s ease-in-out; }
+    .card:hover { transform: translateY(-5px); }
+    .progress { border-radius: 10px; height: 8px; }
+    .badge-pill { padding-right: 0.6em; padding-left: 0.6em; }
+    .table thead th { border-top: none; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 0.05rem; }
+    
+    /* Adjusting text size for 5-column layout on smaller screens */
+    @media (min-width: 1200px) {
+        .col-xl-custom { flex: 0 0 20%; max-width: 20%; }
+    }
+</style>
 
-<!-- Page Heading -->
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
-    <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
-    <a href="{% url 'task-add' %}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
-        <i class="fas fa-plus fa-sm text-white-50"></i> Add New Task
+    <div>
+        <h1 class="h3 mb-0 text-gray-800 font-weight-bold">Dashboard</h1>
+        <p class="text-gray-500 mb-0">Welcome back! Here is an overview of your productivity.</p>
+    </div>
+    <a href="{% url 'task-add' %}" class="btn btn-primary btn-icon-split shadow">
+        <span class="icon text-white-50">
+            <i class="fas fa-plus"></i>
+        </span>
+        <span class="text">Add New Task</span>
     </a>
 </div>
 
-<!-- Content Row - Stats Cards -->
 <div class="row">
-
-    <!-- Total Tasks Card -->
-    <div class="col-xl-3 col-md-6 mb-4">
+    <div class="col-xl-custom col-md-6 mb-4">
         <div class="card border-left-primary shadow h-100 py-2">
             <div class="card-body">
                 <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
                         <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Total Tasks</div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{ total_tasks }}</div>
+                        <div class="h4 mb-0 font-weight-bold text-gray-800">{{ total_tasks }}</div>
                     </div>
                     <div class="col-auto">
                         <i class="fas fa-list fa-2x text-gray-300"></i>
@@ -33,14 +47,29 @@
         </div>
     </div>
 
-    <!-- Notes Card -->
-    <div class="col-xl-3 col-md-6 mb-4">
+    <div class="col-xl-custom col-md-6 mb-4">
         <div class="card border-left-secondary shadow h-100 py-2">
             <div class="card-body">
                 <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-secondary text-uppercase mb-1">Total Notes</div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{ total_notes }}</div>
+                        <div class="text-xs font-weight-bold text-secondary text-uppercase mb-1">Total Subtasks</div>
+                        <div class="h4 mb-0 font-weight-bold text-gray-800">{{ total_subtasks }}</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-newspaper fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-custom col-md-6 mb-4">
+        <div class="card border-left-info shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Total Notes</div>
+                        <div class="h4 mb-0 font-weight-bold text-gray-800">{{ total_notes }}</div>
                     </div>
                     <div class="col-auto">
                         <i class="fas fa-book fa-2x text-gray-300"></i>
@@ -50,14 +79,13 @@
         </div>
     </div>
 
-    <!-- Categories Card -->
-    <div class="col-xl-3 col-md-6 mb-4">
-        <div class="card border-left-danger shadow h-100 py-2">
+    <div class="col-xl-custom col-md-6 mb-4">
+        <div class="card border-left-success shadow h-100 py-2">
             <div class="card-body">
                 <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">Categories</div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{ total_categories }}</div>
+                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Categories</div>
+                        <div class="h4 mb-0 font-weight-bold text-gray-800">{{ total_categories }}</div>
                     </div>
                     <div class="col-auto">
                         <i class="fas fa-folder-open fa-2x text-gray-300"></i>
@@ -67,14 +95,13 @@
         </div>
     </div>
 
-    <!-- Priorities Card -->
-    <div class="col-xl-3 col-md-6 mb-4">
-        <div class="card border-left-dark shadow h-100 py-2">
+    <div class="col-xl-custom col-md-6 mb-4">
+        <div class="card border-left-warning shadow h-100 py-2">
             <div class="card-body">
                 <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-dark text-uppercase mb-1">Priorities</div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{ total_priorities }}</div>
+                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Priorities</div>
+                        <div class="h4 mb-0 font-weight-bold text-gray-800">{{ total_priorities }}</div>
                     </div>
                     <div class="col-auto">
                         <i class="fas fa-star fa-2x text-gray-300"></i>
@@ -83,106 +110,60 @@
             </div>
         </div>
     </div>
-
-
 </div>
 
-<!-- Content Row - Secondary Stats -->
-<div class="row">
-
-    <!-- Pending Card -->
-    <div class="col-xl-4 col-md-6 mb-4">
-        <div class="card border-left-warning shadow h-100 py-2">
-            <div class="card-body">
-                <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Pending</div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{ pending_count }}</div>
-                    </div>
-                    <div class="col-auto">
-                        <i class="fas fa-clock fa-2x text-gray-300"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- In Progress Card -->
-    <div class="col-xl-4 col-md-6 mb-4">
-        <div class="card border-left-info shadow h-100 py-2">
-            <div class="card-body">
-                <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-info text-uppercase mb-1">In Progress</div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{ inprogress_count }}</div>
-                    </div>
-                    <div class="col-auto">
-                        <i class="fas fa-spinner fa-2x text-gray-300"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Completed Card -->
-    <div class="col-xl-4 col-md-6 mb-4">
-        <div class="card border-left-success shadow h-100 py-2">
-            <div class="card-body">
-                <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Completed</div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{ completed_count }}</div>
-                    </div>
-                    <div class="col-auto">
-                        <i class="fas fa-check-circle fa-2x text-gray-300"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-</div>
-
-<!-- Content Row - Recent Tasks Table -->
 <div class="row">
     <div class="col-12">
         <div class="card shadow mb-4">
-            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between bg-white">
                 <h6 class="m-0 font-weight-bold text-primary">Recent Tasks</h6>
-                <a href="{% url 'task-list' %}" class="btn btn-sm btn-primary">
-                    View All <i class="fas fa-arrow-right fa-sm ml-1"></i>
+                <a href="{% url 'task-list' %}" class="btn btn-sm btn-outline-primary rounded-pill">
+                    View All Tasks
                 </a>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
-                    <table class="table table-bordered" width="100%" cellspacing="0">
-                        <thead>
+                    <table class="table table-hover align-items-center" width="100%" cellspacing="0">
+                        <thead class="bg-light">
                             <tr>
-                                <th>Task</th>
-                                <th>Status</th>
-                                <th>Priority</th>
-                                <th>Deadline</th>
+                                <th class="text-gray-600">Task Title</th>
+                                <th class="text-gray-600">Status</th>
+                                <th class="text-gray-600">Priority</th>
+                                <th class="text-gray-600">Deadline</th>
                             </tr>
                         </thead>
                         <tbody>
                             {% for task in recent_tasks %}
                             <tr>
-                                <td>{{ task.title }}</td>
+                                <td class="font-weight-bold text-gray-800">{{ task.title }}</td>
                                 <td>
                                     {% if task.status == 'Completed' %}
-                                        <span class="badge badge-success">{{ task.status }}</span>
+                                        <span class="badge badge-pill badge-success-soft text-success border border-success">
+                                            <i class="fas fa-check-circle mr-1"></i>{{ task.status }}
+                                        </span>
                                     {% elif task.status == 'In Progress' %}
-                                        <span class="badge badge-info">{{ task.status }}</span>
+                                        <span class="badge badge-pill badge-info-soft text-info border border-info">
+                                            <i class="fas fa-spinner fa-spin mr-1"></i>{{ task.status }}
+                                        </span>
                                     {% else %}
-                                        <span class="badge badge-warning">{{ task.status }}</span>
+                                        <span class="badge badge-pill badge-warning-soft text-warning border border-warning">
+                                            <i class="fas fa-clock mr-1"></i>{{ task.status }}
+                                        </span>
                                     {% endif %}
                                 </td>
-                                <td>{{ task.priority }}</td>
-                                <td>{{ task.deadline }}</td>
+                                <td>
+                                    <span class="text-xs font-weight-bold">{{ task.priority }}</span>
+                                </td>
+                                <td>
+                                    <span class="text-xs"><i class="far fa-calendar-alt mr-1"></i>{{ task.deadline }}</span>
+                                </td>
                             </tr>
                             {% empty %}
                             <tr>
-                                <td colspan="4" class="text-center text-gray-500">No tasks yet</td>
+                                <td colspan="4" class="text-center py-5 text-gray-500">
+                                    <img src="{% static 'img/undraw_no_data.svg' %}" style="width: 150px;" class="mb-3 d-block mx-auto">
+                                    No tasks recorded yet.
+                                </td>
                             </tr>
                             {% endfor %}
                         </tbody>

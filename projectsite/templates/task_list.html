@@ -5,30 +5,27 @@
 
 {% block content %}
 
-<!-- Page Heading -->
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
-    <h1 class="h3 mb-0 text-gray-800">Tasks</h1>
-    <a href="{% url 'task-add' %}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
-        <i class="fas fa-plus fa-sm text-white-50"></i> Add Task
+    <h1 class="h3 mb-0 text-gray-800 font-weight-bold">Tasks</h1>
+    <a href="{% url 'task-add' %}" class="btn btn-primary shadow-sm rounded-pill px-4">
+        <i class="fas fa-plus fa-sm mr-1"></i> Add Task
     </a>
 </div>
 
-<!-- DataTables Card -->
-<div class="card shadow mb-4">
-    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+<div class="card shadow-sm mb-4">
+    <div class="card-header py-3">
         <h6 class="m-0 font-weight-bold text-primary">List of Tasks</h6>
     </div>
     <div class="card-body">
 
-        <!-- Search & Sort Row -->
-        <div class="row mb-3">
+        <div class="row mb-4 align-items-center">
             <div class="col-md-6">
                 <form class="form-inline" action="{% url 'task-list' %}">
-                    <div class="input-group">
-                        <input type="text" class="form-control bg-light border-0 small" placeholder="Search Tasks..."
+                    <div class="input-group w-100">
+                        <input type="text" class="form-control bg-light border-0 small" placeholder="Search for tasks..."
                                name="q" value="{{ request.GET.q }}">
                         <div class="input-group-append">
-                            <button class="btn btn-primary" type="submit">
+                            <button class="btn btn-primary px-3" type="submit">
                                 <i class="fas fa-search fa-sm"></i>
                             </button>
                         </div>
@@ -38,23 +35,22 @@
             <div class="col-md-6 text-right">
                 <form method="get" class="form-inline justify-content-end">
                     <label class="mr-2 text-gray-600 small font-weight-bold text-uppercase">Sort by:</label>
-                    <select class="form-control form-control-sm mr-2" name="sort_by">
+                    <select class="form-control form-control-sm mr-2 border-0 bg-light" name="sort_by">
                         <option value="title" {% if request.GET.sort_by == "title" %}selected{% endif %}>Title</option>
-                        <option value="-created_at" {% if request.GET.sort_by == "-created_at" %}selected{% endif %}>Newest First</option>
                         <option value="deadline" {% if request.GET.sort_by == "deadline" %}selected{% endif %}>Deadline</option>
                         <option value="status" {% if request.GET.sort_by == "status" %}selected{% endif %}>Status</option>
-                        <option value="priority__name" {% if request.GET.sort_by == "priority__name" %}selected{% endif %}>Priority</option>
                         <option value="category__name" {% if request.GET.sort_by == "category__name" %}selected{% endif %}>Category</option>
+                        <option value="priority__name" {% if request.GET.sort_by == "priority__name" %}selected{% endif %}>Priority</option>
                     </select>
-                    <button type="submit" class="btn btn-sm btn-primary">
-                        <i class="fas fa-sort fa-sm"></i> Sort
+                    <button type="submit" class="btn btn-sm btn-outline-primary px-3 rounded-pill">
+                        <i class="fas fa-sort fa-sm mr-1"></i> Sort
                     </button>
                 </form>
             </div>
         </div>
 
         <div class="table-responsive">
-            <table class="table table-bordered" width="100%" cellspacing="0">
+            <table class="table table-hover align-middle" width="100%" cellspacing="0">
                 <thead>
                     <tr>
                         <th>Title</th>
@@ -62,37 +58,46 @@
                         <th>Priority</th>
                         <th>Category</th>
                         <th>Deadline</th>
-                        <th>Action</th>
+                        <th class="text-center">Action</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for task in object_list %}
                     <tr>
-                        <td class="font-weight-bold">{{ task.title }}</td>
+                        <td class="font-weight-bold text-dark">{{ task.title }}</td>
                         <td>
                             {% if task.status == 'Completed' %}
-                                <span class="badge badge-success">{{ task.status }}</span>
-                            {% elif task.status == 'In Progress' %}
-                                <span class="badge badge-info">{{ task.status }}</span>
+                                <span class="badge badge-pill badge-success-soft text-success border border-success">
+                                    <i class="fas fa-check-circle mr-1"></i>{{ task.status }}
+                                </span>
+                             {% elif task.status == 'In Progress' %}
+                                <span class="badge badge-pill badge-info-soft text-info border border-info">
+                                    <i class="fas fa-spinner fa-spin mr-1"></i>{{ task.status }}
+                                </span>
                             {% else %}
-                                <span class="badge badge-warning">{{ task.status }}</span>
+                                <span class="badge badge-pill badge-warning-soft text-warning border border-warning">
+                                    <i class="fas fa-clock mr-1"></i>{{ task.status }}
+                                </span>
                             {% endif %}
                         </td>
-                        <td>{{ task.priority }}</td>
-                        <td>{{ task.category }}</td>
-                        <td>{{ task.deadline }}</td>
-                        <td>
-                            <a href="{% url 'task-update' task.id %}" class="btn btn-sm btn-primary">
+                        <td><span class="text-gray-800"><i class="fas fa-star fa-sm mr-1 text-gray-400"></i> {{ task.priority }}</span></td>
+                        <td><span class="text-gray-800"><i class="fas fa-folder-open fa-sm mr-1 text-gray-400"></i> {{ task.category }}</span></td>
+                        <td><span class="text-gray-600 small">{{ task.deadline }}</span></td>
+                        <td class="text-center">
+                            <a href="{% url 'task-update' task.id %}" class="btn btn-sm btn-light text-primary border shadow-sm mr-1">
                                 <i class="fas fa-edit"></i>
                             </a>
-                            <a href="{% url 'task-delete' task.id %}" class="btn btn-sm btn-danger">
+                            <a href="{% url 'task-delete' task.id %}" class="btn btn-sm btn-light text-danger border shadow-sm">
                                 <i class="fas fa-trash"></i>
                             </a>
                         </td>
                     </tr>
                     {% empty %}
                     <tr>
-                        <td colspan="6" class="text-center text-gray-500">No tasks found</td>
+                        <td colspan="6" class="text-center py-5">
+                            <i class="fas fa-clipboard fa-3x text-gray-200 mb-3"></i>
+                            <p class="text-gray-500 mb-0">No tasks found. Try adjusting your search or add a new task.</p>
+                        </td>
                     </tr>
                     {% endfor %}
                 </tbody>
