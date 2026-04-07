@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
     'allauth.socialaccount.providers.github',
+    'pwa',
 ]
 
 if "pythonanywhere" in socket.gethostname():
@@ -159,3 +160,37 @@ ACCOUNT_SIGNUP_FIELDS = [
     "password1*",
     "password2*",
 ]
+
+PWA_APP_NAME = 'Hangarin'
+PWA_APP_DESCRIPTION = "Task & To-Do Manager - Stay organized and productive"
+PWA_APP_THEME_COLOR = '#667eea'
+PWA_APP_BACKGROUND_COLOR = '#FFFFFF'
+PWA_APP_DISPLAY = 'standalone'
+PWA_APP_SCOPE = '/'
+PWA_APP_ORIENTATION = 'any'
+PWA_APP_START_URL = '/'
+PWA_APP_STATUS_BAR_COLOR = 'default'
+
+PWA_APP_ICONS = [
+    {
+    'src': '/static/img/hangarin_logo_192.png',
+    'sizes': '192x192'
+    },
+    {
+    'src': '/static/img/hangarin_logo_512.png',
+    'sizes': '512x512'
+    }
+]
+PWA_APP_ICONS_APPLE = [
+    {
+    'src': '/static/img/hangarin_logo_192.png',
+    'sizes': '192x192'
+    },
+    {
+    'src': '/static/img/hangarin_logo_512.png',
+    'sizes': '512x512'
+    }
+]
+
+PWA_APP_DIR = 'ltr'
+PWA_SERVICE_WORKER_PATH = os.path.join(BASE_DIR, 'static/js', 'serviceworker.js')

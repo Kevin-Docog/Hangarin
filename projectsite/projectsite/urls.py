@@ -25,7 +25,13 @@ from taskmanager import views
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+
+    path('', include('pwa.urls')),
+
+
     path("accounts/", include("allauth.urls")), # allauth routes
+
+    
     path('', views.HomePageView.as_view(), name='home'),
 
     #Task
